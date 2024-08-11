@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
-	"strings"
 	"output/ascii-art"
 	fs "output/ascii-art/res"
+	"strings"
 )
 
 var (
@@ -29,7 +29,7 @@ func optionFlag() {
 func main() {
 	var banner string
 	var input string
-	if strings.HasPrefix(os.Args[1], "--output=") {
+	if len(os.Args) != 1 && strings.HasPrefix(os.Args[1], "--output=") {
 		if len(os.Args) < 3 || len(os.Args) > 4 {
 			formatError()
 			return
@@ -61,13 +61,13 @@ func main() {
 	if input == "" {
 		return
 	}
-
+	fullOutput := ascii.Ascii(banner, input)
 	if fs.IsOtput {
 		if !strings.HasSuffix(outputFile, ".txt") {
 			fmt.Println("Error: File must be .txt extension")
 			return
 		}
-		fullOutput := ascii.Ascii(banner, input)
+	
 		err := os.WriteFile(outputFile, []byte(fullOutput), 0o644)
 		if err != nil {
 			fmt.Println("Error writing to file:", err)
