@@ -39,13 +39,14 @@ func main() {
 				input = os.Args[2]
 				banner = "standard"
 				fs.IsOtput = true
-				if optionFlag(os.Args[1]){
+				if !optionFlag(os.Args[1]){
 					return
 				}
+				
 			} else {
 				input = os.Args[2]
 				banner = os.Args[3]
-				if optionFlag(os.Args[1]){
+				if !optionFlag(os.Args[1]){
 					return
 				}
 				fs.IsOtput = true
