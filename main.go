@@ -16,20 +16,21 @@ func formatError() {
 	fmt.Println("Usage: go run . [OPTION] [STRING] [BANNER]\n\nEX: go run . --output=<fileName.txt> something standard")
 }
 
-func optionFlag() {
+func optionFlag(k string) bool {
 
-	if strings.HasPrefix(string(os.Args[1]), "--output=") {
-		outputFile = strings.TrimPrefix(string(os.Args[1]), "--output=")
+	if strings.HasPrefix(string(k), "--output=") {
+		outputFile = strings.TrimPrefix(string(k), "--output=")
 	} else {
 		formatError()
+		return false
 	}
-
+return true
 }
 
 func main() {
 	var banner string
 	var input string
-	if len(os.Args) != 1 && strings.HasPrefix(os.Args[1], "--output=") {
+	if len(os.Args) != 1 && strings.HasPrefix(os.Args[1], "--output") {
 		if len(os.Args) < 3 || len(os.Args) > 4 {
 			formatError()
 			return
@@ -38,11 +39,15 @@ func main() {
 				input = os.Args[2]
 				banner = "standard"
 				fs.IsOtput = true
-				optionFlag()
+				if optionFlag(os.Args[1]){
+					return
+				}
 			} else {
 				input = os.Args[2]
 				banner = os.Args[3]
-				optionFlag()
+				if optionFlag(os.Args[1]){
+					return
+				}
 				fs.IsOtput = true
 			}
 		}
